@@ -6,7 +6,7 @@ from model import Model
 from shaders import vertexShader
 
 #traslacion: mover un objeto de un punto a otro, x, y,z
-#escala: tamaño del objeto, x, y, z
+#escala: tamanio del objeto, x, y, z
 #rotacion: rotar un objeto en x, y, z
 
 width = 960
