@@ -224,7 +224,7 @@ class Render(object):
                  #   self.glLine((v2[0],v2[1]), (v3[0],v3[1]))
                  #   self.glLine((v3[0], v3[1]), (v0[0],v0[1]))
                  
-                self.glDrawPrimitives(vertexBuffer)
+            self.glDrawPrimitives(vertexBuffer)
                 
     def glDrawPrimitives(self, buffer):
         if self.primitiveType == POINTS:

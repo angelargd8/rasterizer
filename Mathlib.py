@@ -42,3 +42,18 @@ def RotationMatrixX(pitch, yaw, roll):
                             [0,0,0,1]])
    
    return pitchMat * yawMat * rollMat
+
+
+#multiplicacion de matrices
+def multiplicacionMatrices(a, b):
+   pass
+
+
+def multiplicacionMatrizVector(m, v):
+   pass
+
+def normalizarVector(v):
+   pass
+
+def magnitudVector(v):
+   pass
