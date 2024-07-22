@@ -185,7 +185,10 @@ class Render(object):
                 v2 = model.vertices[face[2][0] - 1]
                 
                 if vertCount == 4:
-                    v3 = model.vertices[face[3][0]-1]
+                    if len(face[3])>0:
+                        v3 = model.vertices[face[3][0]-1]
+                    else: 
+                        continue
                     
                 #SI contmos un vertex shader, se manda 
                 #cada vertice para transformalor. recordr

@@ -21,19 +21,19 @@ class Obj(object):
             
             #dependiendo del prefijo parseamos y guardams la informacion en una lista
             if prefix == 'v': #vertices
-                vertice = list(map(float, value.split(' ')))
+                vertice = list(map(float,filter (None, value.split(' ')) ))  #filter(None, value.split(' ')) elimina las cadenas vacías de la lista antes de convertirlas en float
                 self.vertices.append(vertice)
                 
             elif prefix == 'vt':
-                vts = list(map(float, value.split(' ')))
+                vts = list(map(float, filter(None, value.split(' ')) ))
                 self.textcoords.append(vts)
                 
             elif prefix == 'vn':
-                norm = list(map(float, value.split(' ')))
+                norm = list(map(float, filter(None, value.split(' ')) ))
                 self.normals.append(norm)
                 
             elif prefix == 'f':
-                self.faces.append([list(map(int, face.split('/'))) for face in value.split(' ')])
+                self.faces.append([list(map(int, filter(None, face.split('/')) )) for face in value.split(' ')])
                 
                 #face = []
                 #verts = value.split(' ')
