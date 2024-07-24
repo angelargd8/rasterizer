@@ -16,9 +16,9 @@ clock = pygame.time.Clock()
 rend = Render(screen)
 rend.vertexShader = vertexShader
 
-modelo1 = Model("face.obj") #cargar el modelo
+modelo1 = Model("hand.obj") #cargar el modelo
 modelo1.translate[0] = width/2
-modelo1.translate[1] =height/2
+modelo1.translate[1] =height/1.7
 modelo1.scale[0]=10
 modelo1.scale[1]=10
 modelo1.scale[2]=10
