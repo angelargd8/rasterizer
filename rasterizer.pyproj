@@ -21,6 +21,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="camara.py" />
     <Compile Include="gl.py" />
     <Compile Include="Mathlib.py" />
     <Compile Include="model.py" />

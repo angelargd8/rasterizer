@@ -4,8 +4,9 @@
 #magnitud de un vector
 #mtriz de identidad
 #inversa de una matriz
+import re
 import numpy as np
-from math import e, pi, sin, cos
+from math import e, pi, sin, cos, sqrt
 
 
 def TranslationMatrix(x,y,z): 
@@ -100,14 +101,67 @@ def multiplicacionMatrizVector(matriz, vector):
        print("no se puede multiplicar")
        return None
 
-def normalizarVector(v):
-   pass
-
-def magnitudVector(v):
-   pass
 
 def tolist(array):
     try:
         return list(array)
     except Exception: 
         print("")
+        
+def MatrizIdentidad(n):
+    I = [[float(i == j) for i in range(n)] for j in range(n)]
+    return I
+
+def MatrizInversa(matriz): 
+    n = len(matriz)
+    #creamos la matriz identidad
+    I= [[float(i == j) for i in range(n)] for j in range(n)]
+    #matriz aumentada 
+    AI = [matriz[i] + I[i] for i in range(n)]
+    #gauss jordan
+    
+    for i in range(n):
+        factor = AI[i][i]
+        for j in range(2*n):
+            AI[i][j] /= factor
+            
+        #hacer 0 los elementos de la columna
+        for k in range(n):
+            if k != i:
+                factor = AI[k][i]
+            
+                for j in range(2*n):
+                    AI[k][j] -= AI[i][j] * factor
+    #extraer la matriz inversa
+    #inversa = [AI[i][n:] for i in range(n)]
+    inversa= [row[n:] for row in AI]
+    return inversa
+    
+    
+def normalizarVector(v):
+   magnitudV = magnitudVector(v)
+   return [v[i]/magnitudV for i in range(len(v))]
+
+
+def magnitudVector(v):
+   magnitudVector = sqrt(sum([v[i]**2 for i in range(len(v))]))
+   return magnitudVector
+
+def determinanteMatriz(matriz):
+   if len(matriz) == 2:
+       return matriz[0][0]*matriz[1][1] - matriz[0][1]*matriz[1][0]
+   
+   det = 0
+   for c in range(len(matriz)):
+       submatriz = [fila[:c] + fila[c+1:] for fila in (matriz[:0] + matriz[1:])]
+       det += ((-1) ** c) * matriz[0][c] * determinanteMatriz(submatriz)
+   return det
+
+def ProductoCruz(v1, v2):
+    c = [v1[1]*v2[2] - v1[2]*v2[1],
+         v1[2]*v2[0] - v1[0]*v2[2],
+         v1[0]*v2[1] - v1[1]*v2[0]]
+    return c
+
+def ProductoPunto(v1, v2):
+    return sum(x * y for x,y in zip(v1, v2))

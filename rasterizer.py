@@ -9,19 +9,21 @@ from shaders import vertexShader
 #escala: tamanio del objeto, x, y, z
 #rotacion: rotar un objeto en x, y, z
 
-width = 960
-height = 540
-screen = pygame.display.set_mode((width, height))
+width = 400
+height = 400
+screen = pygame.display.set_mode((width, height), pygame.SCALED)
 clock = pygame.time.Clock()
 rend = Render(screen)
 rend.vertexShader = vertexShader
 
-modelo1 = Model("hand.obj") #cargar el modelo
-modelo1.translate[0] = width/2
-modelo1.translate[1] =height/1.7
-modelo1.scale[0]=10
-modelo1.scale[1]=10
-modelo1.scale[2]=10
+modelo1 = Model("face.obj") #cargar el modelo
+#modelo1.translate[0] = width/2
+modelo1.translate[1] = -1 #height/2#1.7
+modelo1.translate[2] = -5
+
+modelo1.scale[0]=0.1
+modelo1.scale[1]=0.1
+modelo1.scale[2]=0.1
 
 rend.models.append(modelo1) #agregar el modelo a la lista de modelos
 
@@ -40,22 +42,28 @@ while isRunning:
                 isRunning = False
             elif event.key == pygame.K_SPACE or event.key == pygame.K_s:
                 rend.glGenerateFrameBuffer("output.bmp")
+                
             elif event.key == pygame.K_RIGHT:
-                modelo1.rotate[1] += 10
+                rend.camara.translate[0] += 10
+                
+            elif event.key == pygame.K_LEFT:
+                rend.camara.translate[0] -= 10
+                
+            elif event.key == pygame.K_UP:
+                rend.camara.translate[1] += 10
+                
+            elif event.key == pygame.K_DOWN:
+                rend.camara.translate[1] -= 10
+                
             elif event.key == pygame.K_1:
                 rend.primitiveType = POINTS
+                
             elif event.key == pygame.K_2:
                 rend.primitiveType = LINES
-  
-
-    #for i in range(100):
-    #    rend.glPoint(480 + i,270 + i)
-
- #   for x in range(0, width, 10):
-  #      rend.glLine((0,0), (x, height))
-  #      rend.glLine((0, height - 1), (x, 0))
-  #      rend.glLine((width - 1, 0), (x, height))
-  #      rend.glLine((width - 1, height - 1), (x, 0))
+            
+            elif event.key == pygame.K_3:
+                rend.primitiveType = LINES
+                
 
     rend.glClear()
     

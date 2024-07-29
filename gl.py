@@ -1,5 +1,9 @@
-from ctypes.wintypes import POINT
+#from ctypes.wintypes import POINT
 import struct #para generar tipo de variables con el tamaño especifico
+from math import tan, pi
+from tkinter import SEL  #para generar tipo de variables con el tamaño especifico
+from camara import Camara
+import random
 
 #funciones para asegurar el tamaño: 
 def char(c): #lo que sea de tipo char, lo va a convertir en 1 byte
@@ -23,6 +27,10 @@ class Render(object):
         self.screen = screen
         _, _, self.width, self.height = screen.get_rect()
         
+        self.camara = Camara()
+        self.glViewport(0,0, self.width, self.height)
+        self.glProjection()
+
         self.glColor(1,1,1)
         self.glClearColor(0,0,0)
         self.glClear()
@@ -32,6 +40,33 @@ class Render(object):
         self.primitiveType = POINTS
         
         self.models =[]
+    
+    def glViewport(self, x, y, width, height):
+        self.vpX = int(x) #posicion en x
+        self.vpY = int(y) #posicion en y
+        self.vpWidth = width #ancho
+        self.vpHeight = height #alto
+
+        self.viewportMatrix = [[width/2, 0, 0, x + width/2],
+                                [0, height/2, 0, y + height/2],
+                                [0, 0, 0.5, 0.5],
+                                [0, 0, 0, 1]]
+    
+    def glProjection(self,n = 0.1, f= 1000, fov = 60): # n es el near, f es el far, fov = angulo de vista y esta en grados
+        aspectRatio = self.vpWidth/ self.vpHeight
+        fov *=  pi/180 #convertir a radianes
+        #t = tangente
+        t = tan(fov/2) * n #tangente de la mitad del angulo de vista por el near
+        r = t * aspectRatio #tangente por el aspect ratio
+
+        #construir la matriz de proyeccion
+        
+        self.projectionMatrix = [[n/r,0,0,0],
+                                [0,n/t,0,0],
+                                [0,0,-(f+n)/(f-n),-(2*f*n)/(f-n)],
+                                [0,0,-1,0]]
+        
+           
 
     def glColor(self, r, g, b):
         r = min(1, max(0, r))
@@ -195,11 +230,11 @@ class Render(object):
                 #pasar las matrices necesrias para usarlas
                 #dentro del shader    
                 if self.vertexShader:
-                    v0 = self.vertexShader(v0, modelMatrix = mMat)
-                    v1 = self.vertexShader(v1, modelMatrix = mMat)
-                    v2 = self.vertexShader(v2, modelMatrix = mMat)
+                    v0 = self.vertexShader(v0, modelMatrix = mMat, viewMatrix = self.camara.GetViewMatrix(), projectionMatrix = self.projectionMatrix, viewportMatrix = self.viewportMatrix)
+                    v1 = self.vertexShader(v1, modelMatrix = mMat, viewMatrix = self.camara.GetViewMatrix(), projectionMatrix = self.projectionMatrix, viewportMatrix = self.viewportMatrix)
+                    v2 = self.vertexShader(v2, modelMatrix = mMat, viewMatrix = self.camara.GetViewMatrix(), projectionMatrix = self.projectionMatrix, viewportMatrix = self.viewportMatrix)
                     if vertCount==4:
-                        v3 = self.vertexShader(v3, modelMatrix = mMat)
+                        v3 = self.vertexShader(v3, modelMatrix = mMat, viewMatrix = self.camara.GetViewMatrix(), projectionMatrix = self.projectionMatrix, viewportMatrix = self.viewportMatrix)
                 
                 vertexBuffer.append(v0)
                 vertexBuffer.append(v1)

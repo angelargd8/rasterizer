@@ -27,7 +27,6 @@ class Model(object):
         #multiplicar los elementos
         res= multiplicacionMatrices(traslateMat, rotateMat)
         res= multiplicacionMatrices(res, scaleMat)
-        return res
-        #resultadoM = traslateMat * rotateMat * scaleMat
-        #return resultadoM #La multiplicacion lo est haciendo numpy
+        return res #res de resultado xd
+
     
