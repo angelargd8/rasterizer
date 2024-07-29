@@ -1,11 +1,11 @@
 #from ctypes.wintypes import POINT
-import struct #para generar tipo de variables con el tamaño especifico
+import struct #para generar tipo de variables con el tamaï¿½o especifico
 from math import tan, pi
-from tkinter import SEL  #para generar tipo de variables con el tamaño especifico
+from tkinter import SEL  #para generar tipo de variables con el tamaï¿½o especifico
 from camara import Camara
 import random
 
-#funciones para asegurar el tamaño: 
+#funciones para asegurar el tamaï¿½o: 
 def char(c): #lo que sea de tipo char, lo va a convertir en 1 byte
     #para crear una variable que ocupe 1 byte
     return struct.pack("=c", c.encode("ascii")) #"=c" que sea de tipo char
@@ -244,24 +244,7 @@ class Render(object):
                     vertexBuffer.append(v0)
                     vertexBuffer.append(v2)
                     vertexBuffer.append(v3)
-             
-                            
-                #dibujar la cara
-                #self.glPoint(int(v0[0]),int(v0[1])) #x,y
-                #self.glPoint(int(v1[0]),int(v1[1]))
-                #self.glPoint(int(v2[0]),int(v2[1]))
-                #if vertCount == 4:
-                #    self.glPoint(int(v3[0]),int(v3[1]))
-                    
-                #dibujar la cara conlineas
-                #self.glLine((v0[0],v0[1]), (v1[0],v1[1]))
-                #self.glLine((v1[0],v1[1]), (v2[0],v2[1]))
-                #self.glLine((v2[0],v2[1]), (v0[0],v0[1]))
-                #if vertCount == 4: 
-                 #   self.glLine((v0[0],v0[1]), (v2[0],v2[1]))
-                 #   self.glLine((v2[0],v2[1]), (v3[0],v3[1]))
-                 #   self.glLine((v3[0], v3[1]), (v0[0],v0[1]))
-                 
+
             self.glDrawPrimitives(vertexBuffer)
                 
     def glDrawPrimitives(self, buffer):

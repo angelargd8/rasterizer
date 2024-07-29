@@ -23,4 +23,8 @@ class Camara(object):
             
             return MatrizInversa(camMatrix)
             #return np.linalg.inv(camMatrix)
+
+        def resetCamara(self):
+            self.translate = [0,0,0]
+            self.rotate = [0,0,0]
         
