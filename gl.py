@@ -38,7 +38,7 @@ class Render(object):
         self.vertexShader=None
 
         
-        self.primitiveType = TRIANGLES #POINTS #TRIANGLES
+        self.primitiveType = POINTS #TRIANGLES
         
         self.models =[]
 
@@ -275,6 +275,8 @@ class Render(object):
             A, C = C, A
         if B[1] < C[1]:
             B, C = C, B
+
+
             
 
         #self.glLine((A[0], A[1]),(B[0],B[1]))
@@ -337,7 +339,10 @@ class Render(object):
             #teorema del intercepto
             #para el valor de x=A[0] + ( (B[1] - A[1])/ (C[1]) - A[1] ) * (C[0] - A[0])
             #para el valor de y el valor de b
-            D = [A[0] + ( (B[1] - A[1])/ (C[1]) - A[1] ) * (C[0] - A[0]) , B[1] ]
+            #D = [A[0] + ( (B[1] - A[1])/ (C[1]) - A[1] ) * (C[0] - A[0]) , B[1] ]
+            D = [A[0] + ((B[1] - A[1]) / (C[1] - A[1])) * (C[0] - A[0]), B[1]]
+
+            
 
             flatBottom(A,B,D)
             flatTop(B,D,C)
@@ -360,7 +365,7 @@ class Render(object):
                 self.glLine((p2[0], p2[1]), (p0[0], p0[1]))  
         
         elif self.primitiveType == TRIANGLES: 
-            for i in range(0, len(buffer), 3):
+            for i in range(0, len(buffer), 10):
                 p0 = buffer[i]
                 p1 = buffer[i+1]
                 p2 = buffer[i+2]

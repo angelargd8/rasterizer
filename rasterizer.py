@@ -9,8 +9,8 @@ from shaders import vertexShader
 #escala: tamanio del objeto, x, y, z
 #rotacion: rotar un objeto en x, y, z
 
-width = 512#960
-height =512# 540
+width = 400#960
+height =400# 540
 screen = pygame.display.set_mode((width, height), pygame.SCALED)
 clock = pygame.time.Clock()
 rend = Render(screen)
