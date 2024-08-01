@@ -263,7 +263,77 @@ class Render(object):
                  #   self.glLine((v3[0], v3[1]), (v0[0],v0[1]))
                  
             self.glDrawPrimitives(vertexBuffer)
+       
+    def glTriangle(self,A, B, C, color=None):
+        if A[1] < B[1]:
+            A, B = B, A
+        if A[1] < C[1]:
+            A, C = C, A
+        if B[1] < C[1]:
+            B, C = C, B
+            
+        # self.glLine( (A[0], A[1]) , (B[0],B[1]) )
+        # self.glLine( (B[0], B[1]) , (C[0],C[1]) )
+        # self.glLine( (C[0], C[1]) , (A[0],A[1]) )
+
+        def flatBottom(vA, vB, vC):
+            try: #por si es partido 0
+                mBA = (vB[0] - vA[0]) / (vB[1] - vA[1])
+                mCA = (vC[0] - vA[0]) / (vC[1] - vA[1])
+            except: 
+                pass
+            
+            else: 
+                #dibujar una linea de un punto a otro, pero primero que salgan los puntos xd
+                x0 = vB[0]
+                x1 = vC[0]
+                for y in range( int(vB[1]), int(vA[1])  ): #  que vaya de 2 en 2
+                    self.glLine([x0, y], [x1, y], color)
+                    #x0 += 1/mBA
+                    #x1 += 1/mCA
+                    x0 += mBA   
+                    x1 += mCA 
+                    
+        def flatTop(vA, vB, vC):
+            try: #por si es partido 0
+
+                mCA = (vC[0] - vA[0]) / (vC[1] - vA[1])
+                mCB = (vC[0] - vB[0]) / (vC[1] - vB[1])
                 
+            except: 
+                pass
+            else: 
+                #dibujar una linea de un punto a otro, pero primero que salgan los puntos xd
+                x0 = vA[0]
+                x1 = vB[0]
+                
+                for y in range( int(vA[1]), int(vC[1]),-1): # -1 para que vaya hacia abajo
+                    self.glLine([x0, y,], [x1, y], color)
+                    x0 -= mCA
+                    x1 -= mCB  
+
+        #3 casos luego de dibujar las lineas
+        #b en y es igual a c en y
+        if B[1] == C[1]: #La punta esta arriba
+            #la parte plana esta abajo y la punta esta arriba
+            flatBottom(A,B,C)
+        
+        elif A[1] == B[1]: 
+            #la parte plana esta arriba y la punta esta abajo
+            flatTop(A,B,C)
+        
+        else:
+            #divido el triangulo en dos partes y 
+            #dibuja ambos tipos de triangulos
+            
+            #teorema del intercepto
+            #para el valor de x=A[0] + ( (B[1] - A[1])/ (C[1]) - A[1] ) * (C[0] - A[0])
+            #para el valor de y el valor de b
+            #D = [A[0] + ( (B[1] - A[1])/ (C[1]) - A[1] ) * (C[0] - A[0]) , B[1] ]
+            D = [A[0] + ((B[1] - A[1]) / (C[1] - A[1])) * (C[0] - A[0]), B[1]]
+            flatBottom(A,B,D)
+            flatTop(B,D,C)
+
     def glDrawPrimitives(self, buffer):
         if self.primitiveType == POINTS:
                 for point in buffer: 
@@ -278,4 +348,14 @@ class Render(object):
                 self.glLine((p0[0], p0[1]), (p1[0], p1[1]))
                 self.glLine((p1[0], p1[1]), (p2[0], p2[1]))                
                 self.glLine((p2[0], p2[1]), (p0[0], p0[1]))  
+         
+        elif self.primitiveType == TRIANGLES: 
+            for i in range(0, len(buffer), 3):
+                p0 = buffer[i]
+                p1 = buffer[i+1]
+                p2 = buffer[i+2]
+                
+                color= [random.random(), random.random(), random.random()]
+
+                self.glTriangle(p0, p1, p2, color)
                 
