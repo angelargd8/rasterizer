@@ -21,3 +21,25 @@ def vertexShader(vertex, **kwargs): #** = argumentos
     vt = [ (vt[0]/vt[3]) ,( vt[1]/vt[3]), (vt[2]/vt[3])]
         
     return vt
+
+def fragmentShader(**kwargs):
+    # Se lleva a cabo por cada pixel individual
+    
+    # Obtenemos la informacion requerida
+    A, B, C = kwargs["verts"]
+    u, v, w = kwargs["bCoords"]
+    
+    
+    # Empezamos siempre con color blanco
+    r = 1
+    g = 1
+    b = 1
+    
+    # Para el proposito de mostrar las coordenadas de textura
+    # en accion, las usamos para el color
+    r *= u
+    g *= v
+    b *= w
+        
+    # Se regresa el color
+    return [r,g,b]

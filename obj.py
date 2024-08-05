@@ -13,6 +13,10 @@ class Obj(object):
         for line in lines: 
             #si la linea no cuenta con un prefijo y un valor
             #seguimos a la siguiente linea
+            # Este comando elimina espacios en blanco innecesarios
+            # al final de un texto
+            line = line.rstrip()
+                        
             try:
                 prefix, value = line.split(' ', 1) 
                 

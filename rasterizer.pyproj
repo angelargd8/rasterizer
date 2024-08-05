@@ -21,6 +21,8 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="baryCoords.py" />
+    <Compile Include="texture.py" />
     <Compile Include="camara.py" />
     <Compile Include="gl.py" />
     <Compile Include="Mathlib.py" />
