@@ -167,11 +167,9 @@ def ProductoPunto(v1, v2):
     return sum(x * y for x,y in zip(v1, v2))
 
 
-#parte de carlos 
-#------------------------------------------------arrglar
 def barycentricCoords(A, B, C, P):
 	
-	# Se saca el �rea de los subtri�ngulos y del tri�ngulo
+	# Se saca el area de los subtri�ngulos y del tri�ngulo
 	# mayor usando el Shoelace Theorem, una f�rmula que permite
 	# sacar el �rea de un pol�gono de cualquier cantidad de v�rtices.
 
