@@ -14,7 +14,7 @@ height = 512
 screen = pygame.display.set_mode((width, height), pygame.SCALED)
 clock = pygame.time.Clock()
 
-rend = Render(screen)
+rend = Renderer(screen)
 rend.vertexShader = vertexShader
 rend.fragmentShader = fragmentShader
 
@@ -23,31 +23,20 @@ puntoB = [250, 500, 0]
 puntoC = [500, 50, 0]
 
 
-# #cada vertice necesita su informacion adicional
-# #    POSICION,    Coords e textura
-# pA = [50, 50, 0,  1,0,0]
-# pB = [256,500,0,  0,1,0]
-# pC = [500,50, 0,  0,0,1]
-# triangle= [pA, pB, pC]
-
-# modelo1 = Model("face.obj") #cargar el modelo
+#modelo1 = Model("models/model.obj") #cargar el modelo
+#modelo1.translate[2] = -5
 # #modelo1.translate[0] = width/2
 # # modelo1.translate[1] = -1 #height/2#1.7
-# modelo1.translate[2] = -5
+
 # modelo1.translate[1] = -1
 # modelo1.scale[0]=0.1
 # modelo1.scale[1]=0.1
 # modelo1.scale[2]=0.1
-
-# rend.models.append(modelo1) #agregar el modelo a la lista de modelos
+#rend.models.append(modelo1) #agregar el modelo a la lista de modelos
 
 #rend.glColor(1, 0, 0.5) #lineas
 #rend.glClearColor(0.5, 1, 1) #fondo
-
-# triangle1 = [[10,80],[50,160],[70,80]]
-# triangle2 = [[180, 50],[150, 1],[70,180]]
-# triangle3 = [[180,120],[120,160],[150,160]]
-      
+     
 isRunning = True
 while isRunning:
 
@@ -84,12 +73,8 @@ while isRunning:
 
     rend.glClear()
     
-    rend.glRender()
-    # rend.glTriangle(triangle1[0], triangle1[1],triangle1[2])
-    # rend.glTriangle(triangle2[0], triangle2[1],triangle2[2])
-    # rend.glTriangle(triangle3[0], triangle3[1],triangle3[2])
+    #rend.glRender()
 
-    #rend.glTriangle(pA, pB, pC)
     rend.glTriangle(puntoA, puntoB, puntoC)
    
     pygame.display.flip()
