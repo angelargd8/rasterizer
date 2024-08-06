@@ -40,6 +40,8 @@ class Renderer(object):
 		self.vertexShader = None
 		self.fragmentShader = None
 		
+		self.activeTexture = None
+		
 		self.primitiveType = TRIANGLES
 		
 		self.models = []
@@ -221,6 +223,10 @@ class Renderer(object):
 			# Agarrar su matriz modelo
 			mMat = model.GetModelMatrix()
 			
+			# Guardar la referencia a la textura que estamos usando de este modelo
+			self.activeTexture = model.texture
+			
+
 			# Aqui vamos a guardar todos los vertices y su info correspondiente
 			vertexBuffer = [ ]
 			
@@ -252,7 +258,13 @@ class Renderer(object):
 					# Agregamos los valores de posicion al contenedor del vertice
 					for value in pos:
 						vert.append(value)
+
+					#obtenenos las coordenadas de la textura de la cara actural
+					vts = model.textCoords[ face[i][1] - 1 ]
 						
+					#agregamos los valors de vts al contenedor del vertices
+					for value in vts:
+						vert.append(value)
 					# Agregamos la informacion de este vertices a la
 					# lista de vertices de esta cara
 					faceVerts.append(vert)
@@ -269,7 +281,7 @@ class Renderer(object):
 					for value in faceVerts[3]: vertexBuffer.append(value)
 
 			# Mandamos el buffer de vertices de este modelo a ser dibujado
-			self.glDrawPrimitives(vertexBuffer, 3)
+			self.glDrawPrimitives(vertexBuffer, 5)
 				
 
 	def glTriangle(self, A, B, C):
@@ -353,6 +365,12 @@ class Renderer(object):
             #D = [A[0] + ( (B[1] - A[1])/ (C[1]) - A[1] ) * (C[0] - A[0]) , B[1] ]
 			D = [ A[0] + ((B[1] - A[1]) / (C[1] - A[1])) * (C[0] - A[0]), B[1]]
 
+			#usar las coordenadas baricentricas
+			u, v, w = barycentricCoords(A, B, C, D)
+			for i in range(2, len(A)):
+				#P = uA + vB + wC
+				D.append( u * A[i] + v* B[i] + w * C[i] )
+
 			flatBottom(A, B, D)
 			flatTop(B, D, C)
 
@@ -375,14 +393,32 @@ class Renderer(object):
 		
 		u, v, w = bCoords
 
+		# hay que asegurarse que la suma de las coordenadas
+		#baricentricas es igual a 1
+		if not isclose(u+v+w,1.0):
+			return
+
+		#se cualcula el valor de Z de este pixel n especifico 
+		z = u * A[2] + v * B[2] + w * C[2]
+		
+		# si el valor de z para este punto es mayor qu el valor guardado 
+		# en el zbuffer, esta más lejos entonces no dibujamos
+		if z < self.zbuffer[x][y]:
+			return
+
+		self.zbuffer[x][y] = z
+		
+
 		# Si contamos un Fragment Shader, obtener el color de ah�
 		color = self.currColor
 		
 		if self.fragmentShader != None:
 			# Mandar los par�metros necesarios al shader
 			verts = (A, B, C)
-			color = self.fragmentShader(verts = verts,
-										bCoords = bCoords,)
+			color = self.fragmentShader(verts = verts, #vertices
+										bCoords = bCoords, #coordenadas de textura
+										texture=self.activeTexture #la textura a dibujar
+										)
 
 		self.glPoint(x, y, color)
 

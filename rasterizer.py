@@ -23,8 +23,13 @@ puntoB = [250, 500, 0]
 puntoC = [500, 50, 0]
 
 
-#modelo1 = Model("models/model.obj") #cargar el modelo
-#modelo1.translate[2] = -5
+modelo1 = Model("models/model.obj") #cargar el modelo
+modelo1.LoadTexture("textures/model.bmp") #cargar la textura)
+modelo1.translate[2] = -5
+modelo1.scale[0]=2
+modelo1.scale[1]=2
+modelo1.scale[2]=2
+
 # #modelo1.translate[0] = width/2
 # # modelo1.translate[1] = -1 #height/2#1.7
 
@@ -32,7 +37,7 @@ puntoC = [500, 50, 0]
 # modelo1.scale[0]=0.1
 # modelo1.scale[1]=0.1
 # modelo1.scale[2]=0.1
-#rend.models.append(modelo1) #agregar el modelo a la lista de modelos
+rend.models.append(modelo1) #agregar el modelo a la lista de modelos
 
 #rend.glColor(1, 0, 0.5) #lineas
 #rend.glClearColor(0.5, 1, 1) #fondo
@@ -73,9 +78,9 @@ while isRunning:
 
     rend.glClear()
     
-    #rend.glRender()
+    rend.glRender()
 
-    rend.glTriangle(puntoA, puntoB, puntoC)
+    #rend.glTriangle(puntoA, puntoB, puntoC)
    
     pygame.display.flip()
     clock.tick(60)

@@ -28,18 +28,40 @@ def fragmentShader(**kwargs):
     # Obtenemos la informacion requerida
     A, B, C = kwargs["verts"]
     u, v, w = kwargs["bCoords"]
+    texture = kwargs["texture"]
     
+    #sabindoque las coordenadas de textira
+    #estan en la cuarta y quinta posicion de cada 
+    # indice de vertice, los obtenemos y guardmos
+    
+    vtA = [A[3], A[4]]
+    vtB = [B[3], B[4]]
+    vtC = [C[3], C[4]]
+    
+
     
     # Empezamos siempre con color blanco
     r = 1
     g = 1
     b = 1
+
+    #vts del pixel
+    #P = uA + vB + wC
+    vtP = [vtA[0]*u + vtB[0]*v + vtC[0]*w, 
+           vtA[1]*u + vtB[1]*v + vtC[1]*w]
     
-    # Para el proposito de mostrar las coordenadas de textura
-    # en accion, las usamos para el color
-    r *= u
-    g *= v
-    b *= w
+    if texture: 
+        textColor = texture.getColor(vtP[0], vtP[1])
+        r *= textColor[0]
+        g *= textColor[1]
+        b *= textColor[2]
+
+
+    # # Para el proposito de mostrar las coordenadas de textura
+    # # en accion, las usamos para el color
+    # r *= u
+    # g *= v
+    # b *= w
         
     # Se regresa el color
     return [r,g,b]

@@ -8,13 +8,19 @@ class Model(object):
         objFile = Obj(filename)
         
         self.vertices = objFile.vertices
+        self.textCoords= objFile.textcoords
         self.faces = objFile.faces
+        
         
         #self.textcoords = objFile.textcoords
         self.translate = [0,0,0]
         self.rotate = [0,0,0]
         self.scale  = [1,1,1]
         
+        self.texture = None
+    
+    def LoadTexture(self, filename):
+        self.texture = Texture(filename)
 
     def GetModelMatrix(self):
         traslateMat = TranslationMatrix(self.translate[0],
