@@ -42,7 +42,7 @@ class Renderer(object):
 		
 		self.activeTexture = None
 		
-		self.primitiveType = TRIANGLES
+		self.primitiveType =TRIANGLES
 		
 		self.models = []
 
@@ -403,7 +403,7 @@ class Renderer(object):
 		
 		# si el valor de z para este punto es mayor qu el valor guardado 
 		# en el zbuffer, esta más lejos entonces no dibujamos
-		if z < self.zbuffer[x][y]:
+		if z > self.zbuffer[x][y]:
 			return
 
 		self.zbuffer[x][y] = z

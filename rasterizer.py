@@ -30,6 +30,15 @@ modelo1.scale[0]=2
 modelo1.scale[1]=2
 modelo1.scale[2]=2
 
+# modelo1.translate[1] = -1 #height/2#1.7  #y
+# modelo1.translate[2] = -5               #z
+# modelo1.scale[0]=0.5
+# modelo1.scale[1]=0.5
+# modelo1.scale[2]=0.5
+# modelo1.rotate[0] = 0
+# modelo1.rotate[1] = 250#180#250
+# modelo1.rotate[2] = 0
+
 # #modelo1.translate[0] = width/2
 # # modelo1.translate[1] = -1 #height/2#1.7
 

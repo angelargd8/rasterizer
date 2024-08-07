@@ -30,7 +30,7 @@ class Obj(object):
                 
             elif prefix == 'vt':
                 vts = list(map(float, filter(None, value.split(' ')) ))
-                self.textcoords.append(vts)
+                self.textcoords.append([vts[0],vts[1]])
                 
             elif prefix == 'vn':
                 norm = list(map(float, filter(None, value.split(' ')) ))
