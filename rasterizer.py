@@ -23,29 +23,22 @@ puntoB = [250, 500, 0]
 puntoC = [500, 50, 0]
 
 
-modelo1 = Model("models/model.obj") #cargar el modelo
-modelo1.LoadTexture("textures/model.bmp") #cargar la textura)
-modelo1.translate[2] = -5
-modelo1.scale[0]=2
-modelo1.scale[1]=2
-modelo1.scale[2]=2
+modelo1 = Model("models/pollo.obj") #cargar el modelo
+modelo1.LoadTexture("textures/pollo.bmp") #cargar la textura)
+# modelo1.translate[2] = -5
+# modelo1.scale[0]=2
+# modelo1.scale[1]=2
+# modelo1.scale[2]=2
 
-# modelo1.translate[1] = -1 #height/2#1.7  #y
-# modelo1.translate[2] = -5               #z
-# modelo1.scale[0]=0.5
-# modelo1.scale[1]=0.5
-# modelo1.scale[2]=0.5
-# modelo1.rotate[0] = 0
-# modelo1.rotate[1] = 250#180#250
-# modelo1.rotate[2] = 0
+modelo1.translate[1] = -1 #height/2#1.7  #y
+modelo1.translate[2] = -5               #z
+modelo1.scale[0]=0.5
+modelo1.scale[1]=0.5
+modelo1.scale[2]=0.5
+modelo1.rotate[0] = 0
+modelo1.rotate[1] = 250#180#250
+modelo1.rotate[2] = 0
 
-# #modelo1.translate[0] = width/2
-# # modelo1.translate[1] = -1 #height/2#1.7
-
-# modelo1.translate[1] = -1
-# modelo1.scale[0]=0.1
-# modelo1.scale[1]=0.1
-# modelo1.scale[2]=0.1
 rend.models.append(modelo1) #agregar el modelo a la lista de modelos
 
 #rend.glColor(1, 0, 0.5) #lineas
