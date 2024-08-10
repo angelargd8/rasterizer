@@ -1,4 +1,6 @@
-﻿import struct #para generar tipo de variables con el tamaño especifico
+﻿from pyexpat import model
+import struct
+from tkinter import SEL #para generar tipo de variables con el tamaño especifico
 from camara import Camara
 import numpy as np
 from math import tan, pi, isclose
@@ -32,15 +34,19 @@ class Renderer(object):
 		self.camera = Camara()
 		self.glViewport(0,0, self.width, self.height)
 		self.glProjection()
-		
+	
 		self.glColor(1,1,1)
 		self.glClearColor(0,0,0)
 		self.glClear()
 		
-		self.vertexShader = None
-		self.fragmentShader = None
+		self.activeVertexShader = None
+		self.activeFragmentShader = None
+		#self.fragmentShader = None
 		
 		self.activeTexture = None
+
+		self.directionalLight =  [1,0,0] #default light direction por la izquierda
+		
 		
 		self.primitiveType =TRIANGLES
 		
@@ -225,7 +231,8 @@ class Renderer(object):
 			
 			# Guardar la referencia a la textura que estamos usando de este modelo
 			self.activeTexture = model.texture
-			
+			self.activeVertexShader = model.vertexShader
+			self.activeFragmentShader = model.fragmentShader
 
 			# Aqui vamos a guardar todos los vertices y su info correspondiente
 			vertexBuffer = [ ]
@@ -248,8 +255,8 @@ class Renderer(object):
 					# Si contamos con un Vertex Shader, se manda cada vertice
 					# para transformalos. Recordar pasar las matrices necesarias
 					# para usarlas dentro del shader
-					if self.vertexShader:
-						pos = self.vertexShader(pos,
+					if self.activeVertexShader:
+						pos = self.activeVertexShader(pos,
 												modelMatrix = mMat,
 												viewMatrix = self.camera.GetViewMatrix(),
 												projectionMatrix = self.projectionMatrix,
@@ -265,6 +272,15 @@ class Renderer(object):
 					#agregamos los valors de vts al contenedor del vertices
 					for value in vts:
 						vert.append(value)
+						
+
+					# Obtenemos las normales de la cara actual
+					normals = model.normals[ face[i][2] - 1 ]
+
+					#agregamos los valores de las normales al contenedor del vertice
+					for value in normals:
+						vert.append(value)
+					
 					# Agregamos la informacion de este vertices a la
 					# lista de vertices de esta cara
 					faceVerts.append(vert)
@@ -281,10 +297,11 @@ class Renderer(object):
 					for value in faceVerts[3]: vertexBuffer.append(value)
 
 			# Mandamos el buffer de vertices de este modelo a ser dibujado
-			self.glDrawPrimitives(vertexBuffer, 5)
+			self.glDrawPrimitives(vertexBuffer, 8)
+						
 				
 
-	def glTriangle(self, A, B, C):
+	def gl_Triangle_std(self, A, B, C):
 		
 		# Hay que asegurar que los vertices entran
 		# en orden: Ay > By > Cy
@@ -375,6 +392,21 @@ class Renderer(object):
 			flatTop(B, D, C)
 
 
+	#un poco más tardado
+	def gl_Tringle_bc(self, A, B, C):
+		#bounding box
+		minX = round(min(A[0], B[0], C[0]))
+		minY = round(min(A[1], B[1], C[1]))
+		maxX = round(max(A[0], B[0], C[0]))
+		maxY = round(max(A[1], B[1], C[1]))
+		
+		for x in range(minX, maxX +1):
+			for y in range(minY, maxY +1):
+				P = [x, y]
+				if barycentricCoords(A, B, C, P) != None:
+					self.glDrawTrianglePoint(A, B, C, P)
+		
+
 	def glDrawTrianglePoint(self, A, B, C, P):
 		
 		x = P[0]
@@ -412,12 +444,13 @@ class Renderer(object):
 		# Si contamos un Fragment Shader, obtener el color de ah�
 		color = self.currColor
 		
-		if self.fragmentShader != None:
+		if self.activeFragmentShader != None:
 			# Mandar los par�metros necesarios al shader
 			verts = (A, B, C)
-			color = self.fragmentShader(verts = verts, #vertices
+			color = self.activeFragmentShader(verts = verts, #vertices
 										bCoords = bCoords, #coordenadas de textura
-										texture=self.activeTexture #la textura a dibujar
+										texture=self.activeTexture, #la textura a dibujar
+										dirLight = self.directionalLight
 										)
 
 		self.glPoint(x, y, color)
@@ -474,7 +507,7 @@ class Renderer(object):
 				B = [ buffer[i + j + vertexOffset * 1] for j in range(vertexOffset)]
 				C = [ buffer[i + j + vertexOffset * 2] for j in range(vertexOffset)]
 				
-				self.glTriangle(A, B, C)
+				self.gl_Triangle_std(A, B, C)
 				
 				
 

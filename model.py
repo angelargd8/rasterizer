@@ -10,7 +10,12 @@ class Model(object):
         self.vertices = objFile.vertices
         self.textCoords= objFile.textcoords
         self.faces = objFile.faces
+        self.normals = objFile.normals
         
+        self.texture = None
+        self.vertexShader = None
+        self.fragmentShader = None
+
         
         #self.textcoords = objFile.textcoords
         self.translate = [0,0,0]

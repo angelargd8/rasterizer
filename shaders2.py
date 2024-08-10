@@ -1,4 +1,4 @@
-﻿import numpy as np
+import numpy as np
 from Mathlib import *
 
 def vertexShader(vertex, **kwargs): #** = argumentos
@@ -95,9 +95,8 @@ def gouradShader(**kwargs):
 		b *= texColor[2]
 		
 	# intensity = normal DOT -dirlight
-	#intensity = np.dot(normal, -np.array(dirLight) 
-	dirLightNegativo = [-dirLight[0], -dirLight[1], -dirLight[2]]
-	intensity = ProductoPunto(normal, dirLightNegativo)  
+	#intensity = np.dot(normal, -np.array(dirLight) )
+	intensity = ProductoPunto(normal, -(dirLight))  
 	intensity = max(0, intensity)
 	r *= intensity
 	g *= intensity
@@ -145,8 +144,7 @@ def flatShader(**kwargs):
 		
 	# intensity = normal DOT -dirlight
 	#intensity = np.dot(normal, -np.array(dirLight) )
-	dirLightNegativo = [-dirLight[0], -dirLight[1], -dirLight[2]]
-	intensity = ProductoPunto(normal, dirLightNegativo)  
+	intensity = ProductoPunto(normal, -(dirLight))  
 	intensity = max(0, intensity)
 	r *= intensity
 	g *= intensity
@@ -191,8 +189,7 @@ def toonShader(**kwargs):
 		
 	# intensity = normal DOT -dirlight
 	#intensity = np.dot(normal, -np.array(dirLight) )
-	dirLightNegativo = [-dirLight[0], -dirLight[1], -dirLight[2]]
-	intensity = ProductoPunto(normal, dirLightNegativo) 
+	intensity = ProductoPunto(normal, -(dirLight)) 
 	intensity = max(0, intensity)
 	
 	if intensity < 0.33:
@@ -206,58 +203,6 @@ def toonShader(**kwargs):
 	r *= intensity
 	g *= intensity
 	b *= intensity
-	
-	# Se regresa el color
-	return [r,g,b]
-
-
-
-def blueToonShader(**kwargs):
-	
-	A, B, C = kwargs["verts"]
-	u, v, w = kwargs["bCoords"]
-	texture = kwargs["texture"]
-	dirLight = kwargs["dirLight"]
-
-	vtA = [A[3], A[4]]
-	vtB = [B[3], B[4]]
-	vtC = [C[3], C[4]]
-	
-	nA = [A[5], A[6], A[7]]
-	nB = [B[5], B[6], B[7]]
-	nC = [C[5], C[6], C[7]]
-	
-	normal = [u * nA[0] + v * nB[0] + w * nC[0],
-			  u * nA[1] + v * nB[1] + w * nC[1],
-		      u * nA[2] + v * nB[2] + w * nC[2] ]
-	
-	r = 1
-	g = 1
-	b = 1
-
-	vtP = [ u * vtA[0] + v * vtB[0] + w * vtC[0],
-			u * vtA[1] + v * vtB[1] + w * vtC[1] ]
-	
-	if texture:
-		texColor = texture.getColor(vtP[0], vtP[1])
-		
-		r *= texColor[0]
-		g *= texColor[1]
-		b *= texColor[2]
-		
-	# intensity = normal DOT -dirlight
-	#intensity = np.dot(normal, -np.array(dirLight) 
-	dirLightNegativo = [-dirLight[0], -dirLight[1], -dirLight[2]]
-	intensity = ProductoPunto(normal, dirLightNegativo)  
-	intensity = max(0, intensity)
-	r *= intensity
-	g *= intensity
-	b *= intensity
-	
-	blue = [ 0.5, 0.5, 1]
-	r *= blue[0]
-	g *= blue[1]
-	b *= blue[2]
 	
 	# Se regresa el color
 	return [r,g,b]
