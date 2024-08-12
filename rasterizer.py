@@ -3,7 +3,7 @@ import pygame
 from pygame.locals import *
 from gl import *
 from model import Model
-from shaders import  vertexShader, unlitShader, gouradShader, flatShader, toonShader, blueToonShader,glowShader, WaterShader
+from shaders import  vertexShader, unlitShader, gouradShader, flatShader, toonShader, blueToonShader,glowShader, WaterShader, holographicShader, iridescentShader
 
 #traslacion: mover un objeto de un punto a otro, x, y,z
 #escala: tamanio del objeto, x, y, z
@@ -43,12 +43,18 @@ modelo3  = Modelo(0, 0, -8, 1.5, 1.5, 1.5, toonShader)
 modelo4  = Modelo(-3, 0, -10, 1.5, 1.5, 1.5, flatShader)
 modelo5  = Modelo(0, 0, -10, 1.5, 1.5, 1.5, blueToonShader)
 modelo6  = Modelo(0, 0, -10, 1.5, 1.5, 1.5, glowShader)
-modelo7  = Modelo(0, 0, -10, 2, 2, 2, WaterShader)
+modelo7  = Modelo(3, 0, -10, 1.5, 1.5, 1.5, WaterShader)
+modelo8  = Modelo(-3, 0, -10, 1.5, 1.5, 1.5, holographicShader)
+modelo9  = Modelo(0, 0, -8, 1.5, 1.5, 1.5, iridescentShader)
 
-rend.models.append(modelo7) #agregar el modelo a la lista de modelos
+#rend.models.append(modelo9) #agregar el modelo a la lista de modelos
 #rend.models.append(modelo2)
 #rend.models.append(modelo3)
 #rend.models.append(modelo4)
+
+rend.models.append(modelo7)
+rend.models.append(modelo8)
+rend.models.append(modelo9)
 
 #rend.glColor(1, 0, 0.5) #lineas
 #rend.glClearColor(0.5, 1, 1) #fondo

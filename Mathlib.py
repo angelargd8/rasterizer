@@ -166,6 +166,10 @@ def ProductoCruz(v1, v2):
 def ProductoPunto(v1, v2):
     return sum(x * y for x,y in zip(v1, v2))
 
+#n = numero a limitar
+def clip(n, minn, maxn):
+    return max(min(maxn, n), minn)
+
 
 def barycentricCoords(A, B, C, P):
 	

@@ -398,3 +398,111 @@ def WaterShader(**kwargs):
 	
 	# Se regresa el color
 	return [min(1,r),min(1,g),min(1,b)]
+
+def holographicShader(**kwargs):
+	A, B, C = kwargs["verts"]
+	u, v, w = kwargs["bCoords"]
+	texture = kwargs["texture"]
+	dirLight = kwargs["dirLight"]
+
+	vtA = [A[3], A[4]]
+	vtB = [B[3], B[4]]
+	vtC = [C[3], C[4]]
+	
+	nA = [A[5], A[6], A[7]]
+	nB = [B[5], B[6], B[7]]
+	nC = [C[5], C[6], C[7]]
+	
+	normal = [u * nA[0] + v * nB[0] + w * nC[0],
+			  u * nA[1] + v * nB[1] + w * nC[1],
+		      u * nA[2] + v * nB[2] + w * nC[2] ]
+
+	r = 1
+	g = 1
+	b = 1
+
+	vtP = [ u * vtA[0] + v * vtB[0] + w * vtC[0],
+			u * vtA[1] + v * vtB[1] + w * vtC[1] ]
+	
+
+	#valores de la onda
+	lineFrequency = 150 #30 50
+	lineIntensity= 0.4 #9
+	
+	lineEffect = lineIntensity * sin(lineFrequency * vtP[1])# +lineIntensity *cos(lineFrequency * vtP[0])
+	
+	
+	r += lineEffect
+	g += lineEffect
+	b += lineEffect
+
+	#fresnel 
+	fresnelEffect =  max(0, ProductoPunto(normal, [0,0,1]))
+	fresnelEffect = 1.0 - fresnelEffect
+	fresnelEffect = min(1, fresnelEffect)
+
+	r *= fresnelEffect
+	g *= fresnelEffect
+	b *= fresnelEffect
+	
+	blue = [ 0.2, 0.6, 1]
+	r *= blue[0]
+	g *= blue[1]
+	b *= blue[2]
+	
+	
+	# Se regresa el color
+	return [min(1,r),min(1,g),min(1,b)]
+	
+def iridescentShader(**kwargs):
+	A, B, C = kwargs["verts"]
+	u, v, w = kwargs["bCoords"]
+	texture = kwargs["texture"]
+	dirLight = kwargs["dirLight"]
+	camMatrix = kwargs["camMatrix"]
+	modelMatrix = kwargs["modelMatrix"]
+
+	vtA = [A[3], A[4]]
+	vtB = [B[3], B[4]]
+	vtC = [C[3], C[4]]
+	
+	nA = [A[5], A[6], A[7]]
+	nB = [B[5], B[6], B[7]]
+	nC = [C[5], C[6], C[7]]
+	
+	normal = [u * nA[0] + v * nB[0] + w * nC[0],
+			  u * nA[1] + v * nB[1] + w * nC[1],
+		      u * nA[2] + v * nB[2] + w * nC[2] ]
+	
+	r = 1
+	g = 1
+	b = 1
+
+	vtP = [ u * vtA[0] + v * vtB[0] + w * vtC[0],
+			u * vtA[1] + v * vtB[1] + w * vtC[1] ]
+	
+	if texture:
+		texColor = texture.getColor(vtP[0], vtP[1])
+		
+		r *= texColor[0]
+		g *= texColor[1]
+		b *= texColor[2]
+		
+	#efecto iridiscente
+	angle = ProductoPunto(normal, [0,0,1])
+	angle = clip(angle, 0, 1)
+	iridescence = sin(angle * pi *2) * 0.4 +0.5
+		
+	
+	# r= iridescence* 0.5
+	# g= iridescence 
+	# b= 1.0 - iridescence 
+
+	r= iridescence * 0.4
+	g= 0.9 - iridescence 
+	b= iridescence * 0.7
+	
+	
+	# Se regresa el color
+	return [min(1,r),min(1,g),min(1,b)]
+	
