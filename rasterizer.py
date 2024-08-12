@@ -11,8 +11,8 @@ from shaders import  vertexShader, unlitShader, gouradShader, flatShader, toonSh
 
 # width = 800 
 # height = 540
-width = 514 #
-height = 514
+width = 512 #
+height = 512
 screen = pygame.display.set_mode((width, height), pygame.SCALED)
 clock = pygame.time.Clock()
 
