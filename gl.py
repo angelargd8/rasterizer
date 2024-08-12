@@ -41,7 +41,8 @@ class Renderer(object):
 		
 		self.activeVertexShader = None
 		self.activeFragmentShader = None
-		#self.fragmentShader = None
+		
+		self.activeModelMatrix = None
 		
 		self.activeTexture = None
 
@@ -227,7 +228,8 @@ class Renderer(object):
 		for model in self.models:
 			# Por cada modelo en la lista, los dibujo
 			# Agarrar su matriz modelo
-			mMat = model.GetModelMatrix()
+			self.activeModelMatrix = model.GetModelMatrix()
+			#mMat = model.GetModelMatrix()
 			
 			# Guardar la referencia a la textura que estamos usando de este modelo
 			self.activeTexture = model.texture
@@ -252,15 +254,17 @@ class Renderer(object):
 					# Obtenemos los vertices de la cara actual
 					pos = model.vertices[ face[i][0] - 1 ]
 					
+
 					# Si contamos con un Vertex Shader, se manda cada vertice
 					# para transformalos. Recordar pasar las matrices necesarias
 					# para usarlas dentro del shader
 					if self.activeVertexShader:
 						pos = self.activeVertexShader(pos,
-												modelMatrix = mMat,
+												modelMatrix = self.activeModelMatrix,
 												viewMatrix = self.camera.GetViewMatrix(),
 												projectionMatrix = self.projectionMatrix,
-												viewportMatrix = self.viewportMatrix)
+												viewportMatrix = self.viewportMatrix,
+												)
 						 
 					# Agregamos los valores de posicion al contenedor del vertice
 					for value in pos:
@@ -280,7 +284,7 @@ class Renderer(object):
 					#agregamos los valores de las normales al contenedor del vertice
 					for value in normals:
 						vert.append(value)
-					
+										
 					# Agregamos la informacion de este vertices a la
 					# lista de vertices de esta cara
 					faceVerts.append(vert)
@@ -450,7 +454,9 @@ class Renderer(object):
 			color = self.activeFragmentShader(verts = verts, #vertices
 										bCoords = bCoords, #coordenadas de textura
 										texture=self.activeTexture, #la textura a dibujar
-										dirLight = self.directionalLight
+										dirLight = self.directionalLight, 
+										camMatrix =self.camera.GetViewMatrix(), 
+										modelMatrix = self.activeModelMatrix
 										)
 
 		self.glPoint(x, y, color)
