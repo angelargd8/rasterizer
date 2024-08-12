@@ -5,6 +5,6 @@
     - Shader de en medio: Iridescent Shader
     - Shader de la derecha: Water Shader
 
-    ![shaders shot](./output.bmp)
+![shaders shot](./output.bmp)
 
 
