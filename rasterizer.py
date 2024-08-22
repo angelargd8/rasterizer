@@ -9,14 +9,16 @@ from shaders import  vertexShader, unlitShader, gouradShader, flatShader, toonSh
 #escala: tamanio del objeto, x, y, z
 #rotacion: rotar un objeto en x, y, z
 
-# width = 800 
-# height = 540
+# width = 960
+# height = 960
 width = 512 #
 height = 512
 screen = pygame.display.set_mode((width, height), pygame.SCALED)
 clock = pygame.time.Clock()
 
 rend = Renderer(screen)
+rend.glLoadBackground("textures/fondo.bmp")
+
 rend.vertexShader = vertexShader
 rend.fragmentShader = unlitShader
 
@@ -100,6 +102,7 @@ while isRunning:
                 
 
     rend.glClear()
+    rend.glClearBackground()
     
     rend.glRender()
 

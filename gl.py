@@ -1,10 +1,12 @@
 ﻿from pyexpat import model
+from re import S
 import struct
 from tkinter import SEL #para generar tipo de variables con el tamaño especifico
 from camara import Camara
 import numpy as np
 from math import tan, pi, isclose
 from Mathlib import barycentricCoords
+from texture import Texture
 
 #funciones para asegurar el tamaño: 
 def char(c): #lo que sea de tipo char, lo va a convertir en 1 byte
@@ -53,6 +55,26 @@ class Renderer(object):
 		
 		self.models = []
 
+		self.background = None
+
+
+	def glLoadBackground(self, filename):
+		self.background = Texture(filename)
+
+	def glClearBackground(self): 
+		if self.background== None: 
+			return
+		for x in range(self.vpX, self.vpX + self.vpWidth + 1):
+			for y in range(self.vpY, self.vpY + self.vpHeight + 1):
+                
+				tU = (x - self.vpX) / self.vpWidth
+				tV = (y - self.vpY) / self.vpHeight
+				
+				texColor = self.background.getColor(tU, tV)
+				
+				if texColor: 
+					self.glPoint(x, y, texColor)
+				
 
 	def glViewport(self, x, y, width, height):
 		self.vpX = int(x) #posicion en x
