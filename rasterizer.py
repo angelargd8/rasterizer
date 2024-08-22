@@ -3,7 +3,7 @@ import pygame
 from pygame.locals import *
 from gl import *
 from model import Model
-from shaders import  vertexShader, unlitShader, gouradShader, flatShader, toonShader, blueToonShader,glowShader, WaterShader, holographicShader, iridescentShader
+from shaders import  vertexShader, unlitShader, gouradShader, flatShader, toonShader, blueToonShader,glowShader, WaterShader, holographicShader, iridescentShader, LineShader
 
 #traslacion: mover un objeto de un punto a otro, x, y,z
 #escala: tamanio del objeto, x, y, z
@@ -35,6 +35,9 @@ def Modelo(translate0, translate1, translate2, scale0, scale1, scale2, fragmentS
     modelo.scale[0] = scale0
     modelo.scale[2] = scale1
     modelo.scale[1] = scale2
+    # modelo.rotate[0] =0
+    # modelo.rotate[1] =90
+    # modelo.rotate[2] =0
     return modelo
 
 modelo1  = Modelo(0, 0, -10, 1.5, 1.5, 1.5, unlitShader)
@@ -46,15 +49,18 @@ modelo6  = Modelo(0, 0, -10, 1.5, 1.5, 1.5, glowShader)
 modelo7  = Modelo(3, 0, -10, 1.5, 1.5, 1.5, WaterShader)
 modelo8  = Modelo(-3, 0, -10, 1.5, 1.5, 1.5, holographicShader)
 modelo9  = Modelo(0, 0, -8, 1.5, 1.5, 1.5, iridescentShader)
+modelo10  = Modelo(0, 0, -8, 1.5, 1.5, 1.5, LineShader)
+modelo22  = Modelo(0, 0, -5, 1.5, 1.5, 1.5, gouradShader)
 
 #rend.models.append(modelo9) #agregar el modelo a la lista de modelos
-#rend.models.append(modelo2)
+rend.models.append(modelo22)
 #rend.models.append(modelo3)
 #rend.models.append(modelo4)
 
-rend.models.append(modelo7)
-rend.models.append(modelo8)
-rend.models.append(modelo9)
+# rend.models.append(modelo7)
+# rend.models.append(modelo8)
+# rend.models.append(modelo9)
+#rend.models.append(modelo10)
 
 #rend.glColor(1, 0, 0.5) #lineas
 #rend.glClearColor(0.5, 1, 1) #fondo

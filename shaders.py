@@ -68,6 +68,7 @@ def gouradShader(**kwargs):
 	u, v, w = kwargs["bCoords"]
 	texture = kwargs["texture"]
 	dirLight = kwargs["dirLight"]
+	modelMatrix = kwargs["modelMatrix"]
 
 	vtA = [A[3], A[4]]
 	vtB = [B[3], B[4]]
@@ -79,8 +80,15 @@ def gouradShader(**kwargs):
 	
 	normal = [u * nA[0] + v * nB[0] + w * nC[0],
 			  u * nA[1] + v * nB[1] + w * nC[1],
-		      u * nA[2] + v * nB[2] + w * nC[2] ]
+		      u * nA[2] + v * nB[2] + w * nC[2],
+			  0 ] #direccion , cuando es posicion es sin el ultimo valor
 	
+	normal = multiplicacionMatrizVector(modelMatrix, normal)
+	normal = [normal[0], normal[1], normal[2]]
+	#normalizarla
+	#normal = normalizar(normal)
+	
+
 	r = 1
 	g = 1
 	b = 1
@@ -505,4 +513,51 @@ def iridescentShader(**kwargs):
 	
 	# Se regresa el color
 	return [min(1,r),min(1,g),min(1,b)]
+
+def LineShader(**kwargs):
+	
+	# Se lleva a cabo por cada pixel individual
+	
+	# Obtenemos la informacion requerida
+	A, B, C = kwargs["verts"]
+	u, v, w = kwargs["bCoords"]
+	texture = kwargs["texture"]
+	dirLight = kwargs["dirLight"]
+
+	# Sabiendo que las coordenadas de textura
+	# estan en la 4ta y 5t posicion de cada 
+	# indice del vertice, los obtenemos y
+	# y guardamos
+
+	vtA = [A[3], A[4]]
+	vtB = [B[3], B[4]]
+	vtC = [C[3], C[4]]
+	
+	# Empezamos siempre con color blanco
+	r = 1
+	g = 1
+	b = 1
+
+	# P = uA + vB + wC
+	vtP = [ u * vtA[0] + v * vtB[0] + w * vtC[0],
+			u * vtA[1] + v * vtB[1] + w * vtC[1] ]
+	
+	if texture:
+		texColor = texture.getColor(vtP[0], vtP[1])
+		
+		r *= texColor[0]
+		g *= texColor[1]
+		b *= texColor[2]
+		
+
+	height = u * A[1] + v * B[1] + w * C[1] #posicion en y
+	
+	value = sin(height) *3
+	
+	if value < -0.8:
+		return None
+	
+		
+	# Se regresa el color
+	return [r,g,b]
 	

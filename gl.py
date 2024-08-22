@@ -442,6 +442,11 @@ class Renderer(object):
 		if z > self.zbuffer[x][y]:
 			return
 
+		#si el valor de z para este punto no esta dentro de -1 y 1 se puede descartar
+		#cualquier cosa que esta detras de la camara no se dibuja
+		if z < -1 or z>1:
+			return
+
 		self.zbuffer[x][y] = z
 		
 
@@ -459,7 +464,8 @@ class Renderer(object):
 										modelMatrix = self.activeModelMatrix
 										)
 
-		self.glPoint(x, y, color)
+		if color!= None:
+			self.glPoint(x, y, color)
 
 
 	def glDrawPrimitives(self, buffer, vertexOffset):
