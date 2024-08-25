@@ -1,6 +1,6 @@
 
 #hacer una clase obj para leer el archivo obj, parseando lainformacion
-
+import re
 class Obj(object):
     def __init__(self, filename):
         #asumiendo que el archivo es un formato .obj
@@ -37,8 +37,8 @@ class Obj(object):
                 self.normals.append(norm)
                 
             elif prefix == 'f':
-                self.faces.append([list(map(int, filter(None, face.split('/')) )) for face in value.split(' ')])
-                
+                #self.faces.append([list(map(int, filter(None, face.split('/')) )) for face in value.split(' ')])
+                self.faces.append([list(map(int, filter(None, re.split(r'/|//', face)))) for face in value.split(' ')])
                 #face = []
                 #verts = value.split(' ')
                 #for vert in verts:

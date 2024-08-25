@@ -11,24 +11,27 @@ from shaders import  vertexShader, unlitShader, gouradShader, flatShader, toonSh
 
 # width = 960
 # height = 960
-width = 512 #
+width = 960 #
 height = 512
 screen = pygame.display.set_mode((width, height), pygame.SCALED)
 clock = pygame.time.Clock()
 
 rend = Renderer(screen)
-rend.glLoadBackground("textures/fondo.bmp")
+rend.glLoadBackground("textures/fondo2.bmp")
 
 rend.vertexShader = vertexShader
 rend.fragmentShader = unlitShader
 
-# puntoA = [50, 50, 0]
-# puntoB = [250, 500, 0]
-# puntoC = [500, 50, 0]
 
-def Modelo(translate0, translate1, translate2, scale0, scale1, scale2, fragmentShader):
-    modelo = Model("models/model.obj") #cargar el modelo
-    modelo.LoadTexture("textures/model.bmp") #cargar la textura)
+#modelo = Model("models/model.obj") #cargar el modelo
+#modelo.LoadTexture("textures/model.bmp") #cargar la textura)
+
+
+
+
+def Modelo(modelo, textura, translate0, translate1, translate2, scale0, scale1, scale2, rotate1, rotate2, rotate3, fragmentShader):
+    modelo = Model(modelo) #cargar el modelo
+    modelo.LoadTexture(textura) #cargar la textura
     modelo.vertexShader = vertexShader
     modelo.fragmentShader = fragmentShader
     modelo.translate[0] = translate0
@@ -37,36 +40,51 @@ def Modelo(translate0, translate1, translate2, scale0, scale1, scale2, fragmentS
     modelo.scale[0] = scale0
     modelo.scale[2] = scale1
     modelo.scale[1] = scale2
-    # modelo.rotate[0] =0
-    # modelo.rotate[1] =90
-    # modelo.rotate[2] =0
+    modelo.rotate[0] =rotate1
+    modelo.rotate[1] =rotate2
+    modelo.rotate[2] =rotate3
     return modelo
 
-modelo1  = Modelo(0, 0, -10, 1.5, 1.5, 1.5, unlitShader)
-modelo2  = Modelo(3, 0, -10, 1.5, 1.5, 1.5, gouradShader)
-modelo3  = Modelo(0, 0, -8, 1.5, 1.5, 1.5, toonShader)
-modelo4  = Modelo(-3, 0, -10, 1.5, 1.5, 1.5, flatShader)
-modelo5  = Modelo(0, 0, -10, 1.5, 1.5, 1.5, blueToonShader)
-modelo6  = Modelo(0, 0, -10, 1.5, 1.5, 1.5, glowShader)
-modelo7  = Modelo(3, 0, -10, 1.5, 1.5, 1.5, WaterShader)
-modelo8  = Modelo(-3, 0, -10, 1.5, 1.5, 1.5, holographicShader)
-modelo9  = Modelo(0, 0, -8, 1.5, 1.5, 1.5, iridescentShader)
-modelo10  = Modelo(0, 0, -8, 1.5, 1.5, 1.5, LineShader)
-modelo22  = Modelo(0, 0, -5, 1.5, 1.5, 1.5, gouradShader)
+# modelo1  = Modelo(0, 0, -10, 1.5, 1.5, 1.5,0,0,0, unlitShader)
+# modelo2  = Modelo(3, 0, -10, 1.5, 1.5, 1.5,0,0,0, gouradShader)
+# modelo3  = Modelo(0, 0, -8, 1.5, 1.5, 1.5,0,0,0, toonShader)
+# modelo4  = Modelo(-3, 0, -10, 1.5, 1.5, 1.5,0,0,0, flatShader)
+# modelo5  = Modelo(0, 0, -10, 1.5, 1.5, 1.5,0,0,0, blueToonShader)
+# modelo6  = Modelo(0, 0, -10, 1.5, 1.5, 1.5,0,0,0, glowShader)
+# modelo7  = Modelo(3, 0, -10, 1.5, 1.5, 1.5,0,0,0, WaterShader)
+# modelo8  = Modelo(-3, 0, -10, 1.5, 1.5, 1.5,0,0,0, holographicShader)
+# modelo9  = Modelo(0, 0, -8, 1.5, 1.5, 1.5,0,0,0, iridescentShader)
+# modelo10  = Modelo(0, 0, -8, 1.5, 1.5, 1.5,0,0,0, LineShader)
+# modelo22  = Modelo(0, 0, -5, 1.5, 1.5, 1.5,0,0,0, gouradShader)
 
-#rend.models.append(modelo9) #agregar el modelo a la lista de modelos
-rend.models.append(modelo22)
-#rend.models.append(modelo3)
-#rend.models.append(modelo4)
+# #Pez tilapia
+# pez = "models/Tilapia.obj"; pezTextura = "textures/Tilapia.bmp"
+# modeloPez  = Modelo(pez, pezTextura,8, -3, -11, 0.5, 0.5, 0.5,0,90,0, WaterShader)
+# rend.models.append(modeloPez)
 
-# rend.models.append(modelo7)
-# rend.models.append(modelo8)
-# rend.models.append(modelo9)
-#rend.models.append(modelo10)
+# #delfin
+# dolphin = "models/dolphin.obj"; dolphinTextura = "textures/dolphin.bmp"
+# modeloDolphin  = Modelo(dolphin, dolphinTextura,0, 0, -11, 0.5, 0.5, 0.5,0,90,0, unlitShader)
+# rend.models.append(modeloDolphin)
 
-#rend.glColor(1, 0, 0.5) #lineas
-#rend.glClearColor(0.5, 1, 1) #fondo
-     
+#barco 
+# barco = "models/barco.obj"; barcoTextura = "textures/barco.bmp"
+# modeloBarco  = Modelo(barco, barcoTextura,-1, -3, -11, 0.5, 0.5, 0.5,0,0,0, WaterShader)
+# rend.models.append(modeloBarco)
+
+#tortuga
+turtle = "models/turtle.obj"; turtleTextura = "textures/turtle.bmp"
+modeloTurtle  = Modelo(turtle, turtleTextura,8, -3, -11, 0.5, 0.5, 0.5,0,90,0, unlitShader)
+rend.models.append(modeloTurtle)
+
+#sirena
+sirena = "models/sirena.obj"; sirenaTextura = "textures/sirena.bmp"
+modeloSirena  = Modelo(sirena, sirenaTextura,0, 0, -11, 0.5, 0.5, 0.5,0,90,0, unlitShader)
+rend.models.append(modeloSirena)
+
+
+
+
 isRunning = True
 while isRunning:
 
@@ -105,8 +123,6 @@ while isRunning:
     rend.glClearBackground()
     
     rend.glRender()
-
-    #rend.glTriangle(puntoA, puntoB, puntoC)
    
     pygame.display.flip()
     clock.tick(60)
