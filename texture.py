@@ -31,5 +31,7 @@ class Texture(object):
 		if 0 <= u < 1 and 0 <= v < 1:
 			return self.pixels[int(v * self.height)][int(u * self.width)]
 		else:
-			return None
+			u = u % 1  
+			v = v % 1 
+			return self.pixels[int(v * self.height)][int(u * self.width)]
 

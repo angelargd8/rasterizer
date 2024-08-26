@@ -1,9 +1,10 @@
-# rasterizer lab 5
+# Proyecto 1: rasterizer 
  
-# Shaders!
-    - Shader de la Izquierda: holographic shader
-    - Shader de en medio: Iridescent Shader
-    - Shader de la derecha: Water Shader
+# Rasterizer!
+    - Shader del barco: holographic shader
+    - Shader del pez: Iridescent Shader
+    - Shader de la tortuga: Water Shader
+    - Shader del sea diver: Toon Shader con glow effect azul, bordes y ambient effect
 
 ![shaders shot](./output.bmp)
 
